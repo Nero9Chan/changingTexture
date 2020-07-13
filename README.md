@@ -1,4 +1,4 @@
-# 3d-model
+# Changing texture of 3d-model
 3d-model for self-learning (using https://github.com/rastapasta/react-native-gl-model-view)
 
 Please look the top-left corner in the app. It shows that the textureURI (state) is changed but it has no effect on the <ModelView/>.
