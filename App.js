@@ -1,59 +1,107 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {StyleSheet, View, Button} from 'react-native';
 
 import Display from './Display'; //Display model (<ModelView/>)
+import Buttonset from './Buttonset';
 
 const App = () => {
-  const [modelURI, setModelURI] = useState('demon.obj'); //changing model(.obj) in here works
-  const [textureURI, setTextureURI] = useState('demon.png'); //changing texture(.png) in here works!! (e.g. red-demon.png)
-  const X = '180';
+  const [modelURI1, setModelURI1] = useState('demon.obj'); //changing model(.obj) in here works
+  const [textureURI1, setTextureURI1] = useState('default-demon.png'); //changing texture(.png) in here works!! (e.g. red-demon.png)
+  const [keyValue1, setkeyValue1] = useState(0);
+
+  const [modelURI2, setModelURI2] = useState('Hamburger.obj'); //changing model(.obj) in here works
+  const [textureURI2, setTextureURI2] = useState('Hamburger.png'); //changing texture(.png) in here works!! (e.g. red-demon.png)
+  const [keyValue2, setkeyValue2] = useState(10);
+
   //^^^rotate X for testing whether the whole model view will not update or model view will update but won't change texture
 
-  const DisplayFunc = useMemo(() => Display(modelURI, textureURI, X));
+  const updateKeyValue1 = () => {
+    if (keyValue1) setkeyValue1(0);
+    else setkeyValue1(1);
+  };
 
-  console.log(DisplayFunc);
+  const updateKeyValue2 = () => {
+    if (keyValue2 == 10) setkeyValue2(11);
+    else setkeyValue2(10);
+  };
+
+  const demonTexture = [
+    'red-demon.png',
+    'green-demon.png',
+    'blue-demon.png',
+    'default-demon.png',
+  ];
+
+  const hamburgerTexture = [
+    'red-Hamburger.png',
+    'green-Hamburger.png',
+    'blue-Hamburger.png',
+    'Hamburger.png',
+  ];
+
+  console.log(
+    <Display
+      key={keyValue1}
+      modelURI={modelURI1}
+      textureURI={textureURI1}
+      flipTexture={false}
+      scale={0.01}
+      rotateX={-90.0}
+      translateZ={-4}
+    />,
+  );
+
+  console.log(
+    <Display
+      key={keyValue2}
+      modelURI={modelURI2}
+      textureURI={textureURI2}
+      flipTexture={true}
+      scale={0.5}
+      rotateX={10.0}
+      translateZ={-4}
+    />,
+  );
 
   return (
     <>
       <View style={styles.container}>
-        <View
-          style={{
-            flex: 9,
-          }}>
-          {Display(modelURI, textureURI, X)}
+        <View style={styles.item}>
+          <Display
+            key={keyValue1}
+            modelURI={modelURI1}
+            textureURI={textureURI1}
+            flipTexture={false}
+            scale={0.01}
+            rotateX={-90.0}
+            translateZ={-4}
+          />
+
+          <Buttonset
+            textureURI={demonTexture}
+            modelURI={modelURI1}
+            setTextureURI={setTextureURI1}
+            setModelURI={setModelURI1}
+            updateKeyValue={updateKeyValue1}
+          />
         </View>
-        <View>
-          <Button
-            title="Red"
-            color="red"
-            onPress={() => {
-              setTextureURI('red-demon.png');
-              console.log('App.js: obj should be changed to red');
-            }}
+        <View style={styles.item}>
+          <Display
+            key={keyValue2}
+            modelURI={modelURI2}
+            textureURI={textureURI2}
+            flipTexture={false}
+            scale={0.5}
+            rotateX={15.0}
+            translateZ={-4}
           />
-          <Button
-            title="Green"
-            color="green"
-            onPress={() => {
-              setTextureURI('green-demon.png');
-              console.log('App.js: obj should be changed to green');
-            }}
-          />
-          <Button
-            title="Blue"
-            color="blue"
-            onPress={() => {
-              setTextureURI('blue-demon.png');
-              console.log('App.js: obj should be changed to blue');
-            }}
-          />
-          <Button
-            title="Default"
-            color="black"
-            onPress={() => {
-              setTextureURI('demon.png');
-              console.log('App.js: obj should be changed to default');
-            }}
+
+          <Buttonset
+            textureURI={hamburgerTexture}
+            modelURI={modelURI2}
+            setTextureURI={setTextureURI2}
+            setModelURI={setModelURI2}
+            updateKeyValue={updateKeyValue2}
           />
         </View>
       </View>
@@ -64,27 +112,12 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start', // if you want to fill rows left to right
   },
-  view: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#406E9F',
-    borderRadius: 9,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
+  item: {
+    width: '50%', // is 50% of container width
   },
 });
 

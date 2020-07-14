@@ -1,33 +1,29 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, Animated} from 'react-native';
 
 import ModelView from 'react-native-gl-model-view';
 
-const Display = (modelURI, textureURI, X) => {
-  console.log('Display.js: Current texture = ' + textureURI);
+const Display = (props) => {
+  //console.log('Display.js: Current texture = ' + textureURI);
 
-  if (textureURI == 'demon.png') {
-    X = -90.0; //for rotateX
-  }
   //^^^ for testing whether the whole model view will not update or model view will update but won't change texture
-
   return (
     <>
-      <Text>{textureURI}</Text>
+      <Text>{props.textureURI}</Text>
       <ModelView
+        key={props.keyValue}
         model={{
-          uri: modelURI,
+          uri: props.modelURI,
         }}
         texture={{
-          uri: textureURI,
+          uri: props.textureURI,
         }}
         //tint={{r: 1.0, g: 1.0, b: 1.0, a: 1.0}}
-        flipTexture={false}
+        flipTexture={props.flipTexture}
         //golden scale for demon
-        scale={0.01}
-        rotateX={Number.parseInt(X)}
-        rotateZ={0}
-        translateZ={-4}
+        scale={props.scale}
+        rotateX={props.rotateX}
+        translateZ={props.translateZ}
         style={styles.view}
       />
     </>
@@ -37,7 +33,8 @@ const Display = (modelURI, textureURI, X) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: '#fff',
+    //backgroundColor: '#fff',
+    backgroundColor: 'transparent',
   },
 });
 
