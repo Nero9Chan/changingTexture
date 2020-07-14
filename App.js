@@ -66,9 +66,8 @@ const App = () => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.item}>
+        <View key={keyValue1} style={styles.itemFull}>
           <Display
-            key={keyValue1}
             modelURI={modelURI1}
             textureURI={textureURI1}
             flipTexture={false}
@@ -85,25 +84,6 @@ const App = () => {
             updateKeyValue={updateKeyValue1}
           />
         </View>
-        <View style={styles.item}>
-          <Display
-            key={keyValue2}
-            modelURI={modelURI2}
-            textureURI={textureURI2}
-            flipTexture={false}
-            scale={0.5}
-            rotateX={15.0}
-            translateZ={-4}
-          />
-
-          <Buttonset
-            textureURI={hamburgerTexture}
-            modelURI={modelURI2}
-            setTextureURI={setTextureURI2}
-            setModelURI={setModelURI2}
-            updateKeyValue={updateKeyValue2}
-          />
-        </View>
       </View>
     </>
   );
@@ -118,6 +98,9 @@ const styles = StyleSheet.create({
   },
   item: {
     width: '50%', // is 50% of container width
+  },
+  itemFull: {
+    width: '100%',
   },
 });
 
